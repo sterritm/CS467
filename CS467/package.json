@@ -1,0 +1,16 @@
+{
+  "name": "cs467",
+  "version": "0.0.0",
+  "description": "CS467",
+  "main": "server.js",
+  "author": {
+    "name": "Adam"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0"
+  },
+  "scripts": {
+    "start": "index.js"
+  }
+}
