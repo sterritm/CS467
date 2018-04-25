@@ -13,6 +13,9 @@ const express = require("express");
 
 const app = express();
 const handlebars = require("express-handlebars").create({ defaultLayout: "main" });
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
@@ -21,6 +24,10 @@ app.set("port", 8080);
 app.get("/", function (req, res) {
 	res.render("index");
 	//res.send("hello world");
+});
+
+app.get("/results", function (req, res) {
+	res.render("results");
 });
 
 app.use(function (req, res) {
