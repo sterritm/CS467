@@ -16,6 +16,7 @@ const handlebars = require("express-handlebars").create({ defaultLayout: "main" 
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static("public"));	//for serving static files
 
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
@@ -28,6 +29,10 @@ app.get("/", function (req, res) {
 
 app.get("/results", function (req, res) {
 	res.render("results");
+});
+
+app.get("/practice", function (req, res) {
+	res.render("practice");
 });
 
 app.use(function (req, res) {
@@ -44,7 +49,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(app.get("port"), function () {
-	console.log('express started on http://localhost:' + app.get("port"));
+	console.log('Express started on http://localhost:' + app.get("port"));
 });
 
 //const server = app.listen(8080, () => {
