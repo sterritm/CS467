@@ -1,26 +1,25 @@
-﻿<h5>Graph building practice</h5>
+﻿<h5>Graph practice with linked lists</h5>
 
 <style>
-.node {
-  cursor: pointer;
-}
+	.node {
+		cursor: pointer;
+	}
 
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
+		.node circle {
+			fill: #fff;
+			stroke: steelblue;
+			stroke-width: 1.5px;
+		}
 
-.node text {
-  font: 10px sans-serif;
-}
+		.node text {
+			font: 10px sans-serif;
+		}
 
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
-}
-
+	.link {
+		fill: none;
+		stroke: #ccc;
+		stroke-width: 1.5px;
+	}
 </style>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
@@ -45,7 +44,7 @@
 		.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	d3.json("/data/mydata.json", function (error, flare) {
+	d3.json("/data/LL.json", function (error, flare) {
 		if (error) throw error;
 
 		root = flare;
@@ -53,14 +52,14 @@
 		root.y0 = 0;
 
 		function collapse(d) {
-			if (d.children) {
-				d._children = d.children;
-				d._children.forEach(collapse);
-				d.children = null;
+			if (d.edges) {
+				d._edges = d.edges;
+				d._edges.forEach(collapse);
+				d.edges = null;
 			}
 		}
 
-		root.children.forEach(collapse);
+		root.edges.forEach(collapse);
 		update(root);
 	});
 
@@ -87,13 +86,13 @@
 
 		nodeEnter.append("circle")
 			.attr("r", 1e-6)
-			.style("fill", function (d) { return d._children ? "lightsteelblue" : "#fff"; });
+			.style("fill", function (d) { return d._edges ? "lightsteelblue" : "#fff"; });
 
 		nodeEnter.append("text")
-			.attr("x", function (d) { return d.children || d._children ? -10 : 10; })
+			.attr("x", function (d) { return d.edges || d._edges ? -10 : 10; })
 			.attr("dy", ".35em")
-			.attr("text-anchor", function (d) { return d.children || d._children ? "end" : "start"; })
-			.text(function (d) { return d.name; })
+			.attr("text-anchor", function (d) { return d.edges || d._edges ? "end" : "start"; })
+			.text(function (d) { return d.title; })
 			.style("fill-opacity", 1e-6);
 
 		// Transition nodes to their new position.
@@ -103,7 +102,7 @@
 
 		nodeUpdate.select("circle")
 			.attr("r", 4.5)
-			.style("fill", function (d) { return d._children ? "lightsteelblue" : "#fff"; });
+			.style("fill", function (d) { return d._edges ? "lightsteelblue" : "#fff"; });
 
 		nodeUpdate.select("text")
 			.style("fill-opacity", 1);
@@ -153,14 +152,14 @@
 		});
 	}
 
-	// Toggle children on click.
+	// Toggle edges on click.
 	function click(d) {
-		if (d.children) {
-			d._children = d.children;
-			d.children = null;
+		if (d.edges) {
+			d._edges = d.edges;
+			d.edges = null;
 		} else {
-			d.children = d._children;
-			d._children = null;
+			d.edges = d._edges;
+			d._edges = null;
 		}
 		update(d);
 	}

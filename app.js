@@ -27,12 +27,20 @@ app.get("/", function (req, res) {
 	//res.send("hello world");
 });
 
+app.get("/force", function (req, res) {
+	res.render("force");
+});
+
 app.get("/results", function (req, res) {
 	res.render("results");
 });
 
 app.get("/practice", function (req, res) {
 	res.render("practice");
+});
+
+app.get("/llprac", function (req, res) {
+	res.render("llprac");
 });
 
 app.use(function (req, res) {
