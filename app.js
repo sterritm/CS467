@@ -1,14 +1,3 @@
-//const express = require("express");
-//const app = express();
-
-//app.use((req, res, next) => {
-//	res.status(200).json({
-//		message: "It Works"
-//	});
-//});
-
-//module.exports = app;
-
 const express = require("express");
 
 const app = express();
@@ -22,18 +11,45 @@ app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
 app.set("port", 8080);
 
+app.post("/results", function (req, res) {
+
+	var payload = { page: null, method: null, limit: 2, keyword: null };
+	payload.page = req.body.page;
+	payload.limit = parseInt(req.body.limit);
+	payload.method = req.body.method;
+	payload.keyword = req.body.keyword;
+	console.log(JSON.stringify(payload));
+	//send json to server
+	//var request = new XMLHttpRequest();
+	//request.open('POST', 'http://cs467-test-server.appspot.com', false);
+	//request.setRequestHeader('Content-Type', 'application/json');
+	//request.send(JSON.stringify(payload));
+	//var response = JSON.parse(request.responseText);
+	//console.log(request.responseText);
+
+	var response = '{"start": "0", "cookie": "test", "URLs": {"0": {"found": false, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": [], "title": "title1"}}}';
+	//if (response && request.status == 200) {
+	if (response) {
+		console.log(response);
+		res.render("force", { "jsonObj": response });
+	} else {
+		alert('Error!');
+	}
+
+
+});
+
 app.get("/", function (req, res) {
 	res.render("index");
-	//res.send("hello world");
 });
 
 app.get("/force", function (req, res) {
 	res.render("force");
 });
 
-app.get("/results", function (req, res) {
-	res.render("results");
-});
+//app.get("/results", function (req, res) {
+//	res.render("results");
+//});
 
 app.get("/practice", function (req, res) {
 	res.render("practice");
@@ -59,10 +75,3 @@ app.use(function (err, req, res, next) {
 app.listen(app.get("port"), function () {
 	console.log('Express started on http://localhost:' + app.get("port"));
 });
-
-//const server = app.listen(8080, () => {
-//	const host = server.address().address;
-//	const port = server.address().port;
-
-//	console.log(`Example app listening at http://${host}:${port}`);
-//});
