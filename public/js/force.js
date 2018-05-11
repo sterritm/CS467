@@ -1,5 +1,4 @@
-﻿
-// set up SVG for D3
+﻿// set up SVG for D3
 var width = 960,
 	height = 700,
 	colors = d3.scale.category10();
@@ -11,12 +10,15 @@ var svg = d3.select('body')
 	.attr('height', height);
 
 //var obj = JSON.parse('{ "URLs": {"www.google.com": {"edges": ["www.zzz.com"], "found": false, "title": "title0"}, "www.zzz.com": { "edges": [], "found": false, "title": "title1" }}, "cookie": "graph 3", "start": "0"}');
-//var obj = JSON.parse('{"start": "0", "cookie": "test7903", "URLs": {"0": {"found": false, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": ["0"], "title": "title1"}, "2": {"found": false, "edges": ["0"], "title": "title2"}, "3": {"found": false, "edges": ["2", "1"], "title": "title3"}, "4": {"found": false, "edges": [], "title": "title4"}}}');
+//var obj = JSON.parse('{"start": "0", "cookie": "test7903", "URLs": {"0": {"found": true, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": ["0"], "title": "title1"}, "2": {"found": false, "edges": ["0"], "title": "title2"}, "3": {"found": false, "edges": ["2", "1"], "title": "title3"}, "4": {"found": false, "edges": [], "title": "title4"}}}');
 var obj = JSON.parse(document.getElementById("script").getAttribute("jsonObj"));
+
+var keyWordFound = false
+
 
 urls = Object.keys(obj["URLs"]);
 
-console.log(urls);
+//console.log(urls);
 
 var nodes = [
 ],
@@ -25,19 +27,19 @@ var nodes = [
 	];
 
 for (var x = 0; x < urls.length; x++){
-	var i = { id: urls[x], reflexive: false };
-	if (x != 0) {
-		i["reflexive"] = true;
-	}
+	var i = { id: urls[x], reflexive: false, keyword: obj['URLs'][urls[x]]['found'], title: obj["URLs"][urls[x]]['title']};
+	//if (x != 0) {
+	//	i["reflexive"] = true;
+	//}
 
 	nodes.push(i);
-	console.log(nodes);
+	//console.log(nodes);
 }
 
 for (var i = 0; i < urls.length; i++) {
 	for (var j = 0; j < obj["URLs"][urls[i]]["edges"].length; j++) {
 		var y = urls.indexOf(obj["URLs"][urls[i]]["edges"][j]);
-		console.log(y);
+		//console.log(y);
 		
 		var k = {
 			source: nodes[i], target: nodes[y] , left: false, right: true
@@ -46,8 +48,8 @@ for (var i = 0; i < urls.length; i++) {
 			links.push(k);
 		}
 		//links.push(k);
-		console.log(links);
-		console.log(k);
+		//console.log(links);
+		//console.log(k);
 	}
 }
 
@@ -153,11 +155,7 @@ function restart() {
 		});
 
 	circle = circle.data(nodes, function (d) { return d.id; });
-
-	// update existing nodes (reflexive & selected visual states)
-	circle.selectAll('circle')
-		.style('fill', function (d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
-		.classed('reflexive', function (d) { return d.reflexive; });
+	
 
 	// add new nodes
 	var g = circle.enter().append('svg:g');
@@ -165,8 +163,8 @@ function restart() {
 	g.append('svg:circle')
 		.attr('class', 'node')
 		.attr('r', 12)
-//		.style('fill', function (d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
-		.style('fill', "lightGreen")
+		//		.style('fill', function (d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
+		.style('fill', function (d) { return (d.keyword) ? "red" : "lightGreen"; })	//change node color if keyword is found red is true
 		.style('stroke', "black")
 		.classed('reflexive', function (d) { return d.reflexive; })
 
@@ -176,6 +174,13 @@ function restart() {
 		.attr('y', 4)
 		.attr('class', 'id')
 		.text(function (d) { return d.id; });
+
+	g.append('svg:text')
+		.attr('x', 10)
+		.attr('y', 14)
+		.attr('class', 'title')
+		.text(function (d) { console.log(d); return d.title; });
+		
 
 	// remove old nodes
 	circle.exit().remove();

@@ -21,20 +21,20 @@ app.post("/results", function (req, res) {
 	payload.limit = parseInt(req.body.limit);
 	payload.method = req.body.method;
 	payload.keyword = req.body.keyword;
-	console.log(JSON.stringify(payload));
+	//console.log(JSON.stringify(payload));
 	//send json to server
 	var request = new XMLHttpRequest();
 	request.open('POST', 'https://webcrawler-201200.appspot.com', false);
 	request.setRequestHeader('Content-Type', 'application/json');
 	request.send(JSON.stringify(payload));
 	var response = JSON.parse(request.responseText);
-	console.log(request.responseText);
+	//console.log(request.responseText);
 
 	//var response = '{"start": "0", "cookie": "test", "URLs": {"0": {"found": false, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": [], "title": "title1"}}}';
 	//if (response && request.status == 200) {
 	if (request.status == 200) {
 	//if (response) {
-		console.log(request.responseText);
+	//	console.log(request.responseText);
 		res.render("results", { "jsonObj": JSON.stringify(response) });
 	} else {
 		alert('Error!');

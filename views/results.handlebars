@@ -8,9 +8,16 @@
 </head>
 <body>
 	<h1>Results from the web crawler</h1>
+	<h4>Press Ctrl + click and drag a node to manipulate the graph</h4>
 	<p>{{jsonObj}}</p>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<script id ="script" type="text/javascript" src="js/force.js" jsonObj = "{{jsonObj}}"></script>
+	<!--<form action="/" method="get">
+		<input type="submit" value="Go To Homepage" />
+	</form>-->
+	<button type="button" name="homeButton">
+		<a href="/">Go To Homepage</a>
+	</button>
 
 </body>
 </html>

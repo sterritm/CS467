@@ -9,13 +9,13 @@
 }
 
 	svg:not(.active):not(.ctrl) {
-		cursor: crosshair;
+		cursor: default;
 	}
 
 path.link {
 	fill: none;
 	stroke: #000;
-	stroke-width: 4px;
+	stroke-width: 2px;
 	cursor: default;
 }
 
