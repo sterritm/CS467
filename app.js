@@ -4,8 +4,11 @@ const app = express();
 const handlebars = require("express-handlebars").create({ defaultLayout: "main" });
 const bodyParser = require("body-parser");
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));	//for serving static files
+app.use(bodyParser.json());
+
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
@@ -20,18 +23,19 @@ app.post("/results", function (req, res) {
 	payload.keyword = req.body.keyword;
 	console.log(JSON.stringify(payload));
 	//send json to server
-	//var request = new XMLHttpRequest();
-	//request.open('POST', 'http://cs467-test-server.appspot.com', false);
-	//request.setRequestHeader('Content-Type', 'application/json');
-	//request.send(JSON.stringify(payload));
-	//var response = JSON.parse(request.responseText);
-	//console.log(request.responseText);
+	var request = new XMLHttpRequest();
+	request.open('POST', 'https://webcrawler-201200.appspot.com', false);
+	request.setRequestHeader('Content-Type', 'application/json');
+	request.send(JSON.stringify(payload));
+	var response = JSON.parse(request.responseText);
+	console.log(request.responseText);
 
-	var response = '{"start": "0", "cookie": "test", "URLs": {"0": {"found": false, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": [], "title": "title1"}}}';
+	//var response = '{"start": "0", "cookie": "test", "URLs": {"0": {"found": false, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": [], "title": "title1"}}}';
 	//if (response && request.status == 200) {
-	if (response) {
-		console.log(response);
-		res.render("force", { "jsonObj": response });
+	if (request.status == 200) {
+	//if (response) {
+		console.log(request.responseText);
+		res.render("results", { "jsonObj": JSON.stringify(response) });
 	} else {
 		alert('Error!');
 	}

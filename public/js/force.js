@@ -42,7 +42,10 @@ for (var i = 0; i < urls.length; i++) {
 		var k = {
 			source: nodes[i], target: nodes[y] , left: false, right: true
 		};
-		links.push(k);
+		if (k["source"] != k["target"]) {
+			links.push(k);
+		}
+		//links.push(k);
 		console.log(links);
 		console.log(k);
 	}
