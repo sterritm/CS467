@@ -10,10 +10,10 @@
 		</label>
 		<label>
 			Number of links to search:
-			<input id="limit" type="number" name="limit" size="5" maxlength="10" min="0" step="1" max="5" />
+			<input id="limit" type="number" name="limit" size="5" maxlength="10" min="0" step="1" max="8" />
 		</label>
 		<label>Search type:</label>
-		<select name="method" id="method">
+		<select name="method" id="method" onchange="crawlDepth()">
 			<option value="DFS">Depth First</option>
 			<option value="BFS">Breadth First</option>
 		</select>
@@ -23,5 +23,18 @@
 		</label>
 		<br />
 		<input id="submitButton" type="submit" value="Start the crawler" />
+		<script>
+			function crawlDepth() {
+				var linkMax = document.getElementById("method");
+				if (linkMax.options[linkMax.selectedIndex].value == "BFS") {
+					var limit = document.getElementById("limit");
+					limit.setAttribute("max", 2);
+				}
+				else {
+					var limit = document.getElementById("limit");
+					limit.setAttribute("max", 5);
+				}
+			}
+		</script>
 	</fieldset>
 </form>
