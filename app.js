@@ -9,24 +9,40 @@ app.use(express.static("public"));	//for serving static files
 app.use(bodyParser.json());
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var cookie = require('cookie');
+var setCookie = require('set-cookie');
+var cookieCount = 0;
 
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
 app.set("port", 8080);
 
 app.post("/results", function (req, res) {
+    console.log(req.body.submitButton.value);
+    if (req.body.submitButton == 'Start the crawler') {
+        var payload = { page: null, method: null, limit: 2, keyword: null };
+        payload.page = req.body.page;
+        payload.limit = parseInt(req.body.limit);
+        payload.method = req.body.method;
+        payload.keyword = req.body.keyword;
+        var payloadJson = JSON.stringify(payload);
 
-	var payload = { page: null, method: null, limit: 2, keyword: null };
-	payload.page = req.body.page;
-	payload.limit = parseInt(req.body.limit);
-	payload.method = req.body.method;
-	payload.keyword = req.body.keyword;
-	//console.log(JSON.stringify(payload));
-	//send json to server
+        //console.log(JSON.stringify(payload));
+        //get previous cookies for count
+        var cookies = cookie.parse(req.headers.cookie || '');
+        //console.log(cookies);
+        //create cookie with search information
+        setCookie('myCookie' + Object.keys(cookies).length, payloadJson, { path: '/', res: res });
+    } else {
+        var payloadJson = req.body.cookies;
+    }
+
+    console.log(payloadJson);
+    //send json to server
 	var request = new XMLHttpRequest();
 	request.open('POST', 'https://webcrawler-201200.appspot.com', false);
 	request.setRequestHeader('Content-Type', 'application/json');
-	request.send(JSON.stringify(payload));
+	request.send(payloadJson);
 	var response = JSON.parse(request.responseText);
 	//console.log(request.responseText);
 
@@ -44,7 +60,8 @@ app.post("/results", function (req, res) {
 });
 
 app.get("/", function (req, res) {
-	res.render("index");
+    var cookies = cookie.parse(req.headers.cookie || '');
+    res.render("index", { 'cookies': cookies });
 });
 
 app.get("/force", function (req, res) {

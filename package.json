@@ -1,18 +1,20 @@
 {
-	"name": "cs467",
-	"version": "0.0.0",
-	"description": "CS467",
-	"main": "server.js",
-	"author": {
-		"name": "Adam"
-	},
-	"dependencies": {
-		"body-parser": "^1.18.2",
-		"express": "^4.16.3",
-		"express-handlebars": "^3.0.0",
-		"xmlhttprequest": "^1.8.0"
-	},
-	"scripts": {
-		"start": "node app.js"
-	}
+  "name": "cs467",
+  "version": "0.0.0",
+  "description": "CS467",
+  "main": "server.js",
+  "author": {
+    "name": "Adam"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie": "^0.3.1",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "set-cookie": "0.0.4",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
 }
