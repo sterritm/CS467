@@ -44,12 +44,19 @@ for (var i = 0; i < urls.length; i++) {
 		var k = {
 			source: nodes[i], target: nodes[y] , left: false, right: true
 		};
-		if (k["source"] != k["target"]) {
+		//check if the reverse arrow already exists
+		var reverse = false;
+		for (var m = 0; m < links.length; m++) {
+			if (k.source == links[m].target && k.target == links[m].source) {
+				links[m].left = true;
+				reverse = true;
+				break;
+			}
+		}
+
+		if (!reverse && k["source"] != k["target"]) {
 			links.push(k);
 		}
-		//links.push(k);
-		//console.log(links);
-		//console.log(k);
 	}
 }
 
@@ -164,22 +171,59 @@ function restart() {
 		.attr('class', 'node')
 		.attr('r', 12)
 		//		.style('fill', function (d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
-		.style('fill', function (d) { return (d.keyword) ? "red" : "lightGreen"; })	//change node color if keyword is found red is true
+		//.style('fill', function (d) { return (d.keyword) ? "red" : "lightGreen"; })	//change node color if keyword is found red is true
+		.style('fill', function (d) {
+			var color = "lightGreen";
+			//change node color if keyword is found red is true
+			if (d.keyword)
+				color = "red";
+			//change node color to dark green if it is the start page
+			else if (d.id == obj["start"])
+				color = "blue";
+			return color;
+		})
 		.style('stroke', "black")
 		.classed('reflexive', function (d) { return d.reflexive; })
 
-	// show node IDs
-	g.append('svg:text')
-		.attr('x', 0)
-		.attr('y', 4)
-		.attr('class', 'id')
-		.text(function (d) { return d.id; });
+		//g.on("click", function (d) {
+		//	window.open(d.id);
+		//})
+		g.on("dblclick", dblclick);
 
-	g.append('svg:text')
-		.attr('x', 10)
-		.attr('y', 14)
-		.attr('class', 'title')
-		.text(function (d) { console.log(d); return d.title; });
+		g.on("mouseover", function (d) {
+			var g = d3.select(this); // The node
+			// The class is used to remove the additional text later
+			var info = g.append('svg:text')
+				.classed('info', true)
+				.attr('x', 20)
+				.attr('y', 10)
+				.text(function (d) { return d.id; });
+			var moreinfo = g.append('svg:text')
+				.classed('moreinfo', true)
+				.attr('x', 20)
+				.attr('y', 25)
+				.text(function (d) { return d.title; });
+
+		})
+		g.on("mouseout", function () {
+			// Remove the info text on mouse out.
+			d3.select(this).select('text.info').remove();
+			d3.select(this).select('text.moreinfo').remove();
+		});
+
+	// show node IDs
+	//g.append('svg:text')
+	//	.attr('x', 0)
+	//	.attr('y', 4)
+	//	.attr('class', 'id')
+	//	.text(function (d) { return d.id; });
+
+	//g.append('svg:text')
+	//	.attr('x', 10)
+	//	.attr('y', 14)
+	//	.attr('class', 'title')
+	//	.text(function (d) { console.log(d); return d.title; });
+
 		
 
 	// remove old nodes
@@ -234,6 +278,10 @@ function keyup() {
 			.on('touchstart.drag', null);
 		svg.classed('ctrl', false);
 	}
+}
+
+function dblclick(a) {
+	window.open(a.id);
 }
 
 d3.select(window)
