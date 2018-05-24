@@ -2,24 +2,54 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/force.css" />
 	<meta charset="utf-8" />
-	<title></title>
+	<title>Crawl Results</title>
 </head>
 <body>
-	<h1>Results from the web crawler</h1>
-	<p>{{jsonObj}}</p>
-	<script src="https://d3js.org/d3.v3.min.js"></script>
-	<script id ="script" type="text/javascript" src="js/force.js" jsonObj = "{{jsonObj}}"></script>
-	<!--<form action="/" method="get">
-		<input type="submit" value="Go To Homepage" />
-	</form>-->
-	<h4>Graph Key:  <span style="color: red">Red</span> nodes indicate the keyword was found on that page, 
-			otherwise the nodes are <span style="color:lightgreen">light green</span>.</h4>
-	<h4>Press Ctrl + click and drag a node to manipulate the graph</h4>
-	<button type="button" name="homeButton">
-		<a href="/">Go To Homepage</a>
-	</button>
-
+	<header class="container">
+		<section class="jumbotron">
+			<div class="container">
+				<div class="row justify-content-center">
+					<h1>Results from the web crawler</h1>
+					<p id="resExplain">Each node in the graph represents a visited URL</p>
+				</div>
+			</div>
+		</section>
+	</header>
+		<section class="container" id="graphContainer">
+			<div class="row justify-content-center">
+				<p id="testObj">{{jsonObj}}</p>
+				<div id="graphSpace"></div>
+				<!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
+				<!--<script id="script" type="text/javascript" src="js/newForce.js" jsonObj="{{jsonObj}}"></script>-->
+				<script src="https://d3js.org/d3.v3.min.js"></script>
+				<!--<script id="script" type="text/javascript" src="js/force2.js" jsonObj="{{jsonObj}}"></script>-->
+				<script id="script" type="text/javascript" src="js/force.js" jsonObj="{{jsonObj}}"></script>
+				<div>
+					<fieldset class="scheduler-border">
+						<legend class="scheduler-border">Graph Key:</legend>
+							<ul>
+								<li>A <span style="color: blue">Blue</span> node indicates the starting URL.</li> 
+								<li>A <span style="color: red">Red</span> node indicates the keyword was found on that page.</li>
+								<li><span style="color:lightgreen">Light green</span> is used for all other nodes.</li>
+								<li>Press Ctrl + click and drag a node to manipulate the graph.</li>
+							</ul>
+					</fieldset>
+				</div>
+				<!--<button type="button" name="homeButton">
+					<a href="/">Go To Homepage</a>
+				</button>-->
+			</div>
+			<div class="row justify-content-center">
+				<form action="../">
+					<input type="submit" value="Go To Homepage" />
+				</form>
+			</div>
+			<br/>
+			<br/>
+			<br/>
+		</section>
 </body>
 </html>

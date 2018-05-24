@@ -4,7 +4,7 @@
 
 #section{
 	background-color: white;
-	opacity: 1.0
+	border:solid;
 }
 
 @font-face{
@@ -21,7 +21,3 @@ h1{
 	font-family: spiderText2;
 	font-size: 4em;
 }
-
-/*Vlegend{
-	font-family: 'Franklin Gothic';
-}*/
