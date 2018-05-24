@@ -1,15 +1,18 @@
-﻿//set up SVG for D3
-var width = 800,
-	height = 600,
-	colors = d3.scale.category10();
+﻿////set up SVG for D3
+//var width = 800,
+//	height = 600,
+//	colors = d3.scale.category10();
 
 
+var svg = d3.select("svg"),
+	width = +svg.attr("width"),
+	height = +svg.attr("height");
 
-var svg = d3.select('#graphSpace')
-	.append('svg')
-	.attr('oncontextmenu', 'return false;')
-	.attr('width', width)
-	.attr('height', height);
+//var svg = d3.select('svg')
+//	.append('svg')
+//	.attr('oncontextmenu', 'return false;')
+//	.attr('width', width)
+//	.attr('height', height);
 //var obj = JSON.parse('{ "URLs": {"www.google.com": {"edges": ["www.zzz.com"], "found": false, "title": "title0"}, "www.zzz.com": { "edges": [], "found": false, "title": "title1" }}, "cookie": "graph 3", "start": "0"}');
 //var obj = JSON.parse('{"start": "0", "cookie": "test7903", "URLs": {"0": {"found": true, "edges": ["1"], "title": "title0"}, "1": {"found": false, "edges": ["0"], "title": "title1"}, "2": {"found": false, "edges": ["0"], "title": "title2"}, "3": {"found": false, "edges": ["2", "1"], "title": "title3"}, "4": {"found": false, "edges": [], "title": "title4"}}}');
 var obj = JSON.parse(document.getElementById("script").getAttribute("jsonObj"));
@@ -194,7 +197,7 @@ function restart() {
 		g.on("mouseover", function (d) {
 			var g = d3.select(this); // The node
 
-			//console.log(g);
+			console.log(g);
 			// The class is used to remove the additional text later
 			var info = g.append('svg:text')
 				.classed('info', true)

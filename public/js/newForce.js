@@ -1,14 +1,18 @@
-﻿//set up SVG for D3
-var width = 800,
-	height = 600;
+﻿////set up SVG for D3
+//var width = 800,
+//	height = 600;
 
 
-//create svg element on body as a canvas to append to
-var svg = d3.select('body')
-	.append('svg')
-	.attr('oncontextmenu', 'return false;')
-	.attr('width', width)
-	.attr('height', height);
+////create svg element on body as a canvas to append to
+//var svg = d3.select('#graphSpace')
+//	.append('svg')
+//	.attr('oncontextmenu', 'return false;')
+//	.attr('width', width)
+//	.attr('height', height);
+//create somewhere to put the force directed graph
+var svg = d3.select("svg"),
+	width = +svg.attr("width"),
+	height = +svg.attr("height");
 
 //parse the incoming JSON object
 var obj = JSON.parse(document.getElementById("script").getAttribute("jsonObj"));
@@ -74,7 +78,7 @@ var link_force = d3.forceLink(links)
 	.id(function (d) { return d.name; });
 
 var charge_force = d3.forceManyBody()
-	.strength(-1500);
+	.strength(-2500);
 
 var center_force = d3.forceCenter(width / 2, height / 2);
 
@@ -84,23 +88,25 @@ simulation
 	.force("links", link_force);
 //------------------------------------------------------------------new
 // define arrow markers for graph links
-svg.append('svg:defs').append('svg:marker')
+svg.append("defs").append('marker')
 	.attr('id', 'end-arrow')
 	.attr('viewBox', '0 -5 10 10')
-	.attr('refX', 6)
-	.attr('markerWidth', 3)
-	.attr('markerHeight', 3)
+	.attr('refX', 19)
+	.attr("refY", 0)
+	.attr('markerWidth', 6)
+	.attr('markerHeight', 6)
 	.attr('orient', 'auto')
 	.append('svg:path')
 	.attr('d', 'M0,-5L10,0L0,5')
 	.attr('fill', 'black');
 
-svg.append('svg:defs').append('svg:marker')
+svg.append('defs').append('marker')
 	.attr('id', 'start-arrow')
 	.attr('viewBox', '0 -5 10 10')
-	.attr('refX', 4)
-	.attr('markerWidth', 3)
-	.attr('markerHeight', 3)
+	.attr('refX', -9)
+	.attr('refY', 0)
+	.attr('markerWidth', 6)
+	.attr('markerHeight', 6)
 	.attr('orient', 'auto')
 	.append('svg:path')
 	.attr('d', 'M10,-5L0,0L10,5')
@@ -162,13 +168,13 @@ var link = g.append("g")
 	.data(links)
 	.enter().append("line")
 	//.attr("stroke-width", 2)
-	.style("stroke", "black")
+	.attr("stroke-width", 2)
 	//--------------------------------------------------------recycled
 	//.classed('selected', function (d) { return d === selected_link; })
-	.style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
-	.style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; });
+	.attr('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : ''; })
+	.attr('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : ''; })
+	.style("stroke", "black");
 	//--------------------------------------------------------recycled
-
 //draw circles for the nodes
 var node = g.append("g")
 	.attr("class", "nodes")
@@ -196,6 +202,7 @@ var node = g.append("g")
 		var g = d3.select(this); // The node
 
 		console.log(g);
+
 		// The class is used to remove the additional text later
 		var info = g.append('svg:text')
 			.classed('info', true)

@@ -104,3 +104,8 @@ h1 {
 	font-family: spiderText2;
 	font-size: 4em;
 }
+
+#svgSection{
+	border: 2px solid;
+	cursor:grab;
+}
