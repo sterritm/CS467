@@ -74,7 +74,9 @@ legend.scheduler-border {
 }
 
 body{
-	background-image: url(../images/spiderWeb.jpg);
+	background-image: url(../images/DanaWeb.png);
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 #testObj{
@@ -106,6 +108,7 @@ h1 {
 }
 
 #svgSection{
-	border: 2px solid;
+	/*border: 2px solid;*/
 	cursor:grab;
+	background-color: transparent;
 }

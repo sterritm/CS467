@@ -1,9 +1,15 @@
-﻿body {
+﻿/*body {
 	background-image: url(../images/DanaWeb.png);
+}*/
+body{
+	background-image: url(../images/DanaWeb.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	/*background-position: center center;*/
 }
 
 #section{
-	background-color: white;
+	background-color: darkgray;
 	border:solid;
 }
 
@@ -19,5 +25,23 @@
 
 h1{
 	font-family: spiderText2;
-	font-size: 4em;
+	font-size: 5em;
+}
+
+#cookies option{
+	width: 300px;
+}
+
+#searchForm{
+	padding-left: 15px;
+	padding-bottom: 10px;
+}
+
+#repeatForm{
+	padding-bottom: 15px;
+}
+
+input[type=text]{
+	border: 2px solid;
+	background-color: darkgray;
 }

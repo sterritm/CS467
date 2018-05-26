@@ -6,10 +6,13 @@
 	<section class="jumbotron">
 		<div class="container">
 			<div class="row justify-content-center">
-				<h1>Welcome to the Pavo group web crawler</h1>
+				<h1>Pavo group web crawler</h1>
 			</div>
 			<div class="row justify-content-center">
-				<p>Enter some basic information to get started.</p>
+				<p>This site will take the user input for the options below and create and interactive
+					<br />graph with nodes representing each URL visited during the crawl and
+					<br />directed edges indicating which page points to which other page.
+				</p>
 			</div>
 		</div>
 	</section>
@@ -17,7 +20,7 @@
 
 <section class="container" id="section">
 	<div class="row justify-content-center">
-		<form action="/results" method="post">
+		<form action="/results" method="post" id="searchForm">
 			<!-- change action to url of server -->
 			<fieldset>
 				<legend>Create new search:</legend>
@@ -28,7 +31,7 @@
 				</label>
 				<label>
 					Number of links to search:
-					<input id="limit" type="number" name="limit" size="5" maxlength="10" min="0" step="1" max="8" 
+					<input id="limit" type="number" name="limit" size="5" maxlength="5" min="0" step="1" max="" 
 						   title="The link depth (# of pages) to be searched"/>
 				</label>
 				<label>Search type:</label>
@@ -55,19 +58,21 @@
 						}
 						else {
 							var limit = document.getElementById("limit");
-							limit.setAttribute("max", 8);
+							limit.setAttribute("max", null);
 						}
 					}
 				</script>
 			</fieldset>
 		</form>
-		<form action="/results" method="post">
+		<form action="/results" method="post" id="repeatForm">
 			<fieldset>
 				<legend>Repeat Search:</legend>
 				<select name="cookies" title="Choose a past search from saved cookies">
 					<option value="">Select One:</option>
 					{{#each cookies}}
-					<option value="{{this}}">{{this}}</option>
+					<!--<option value="{{this}}">{{this}}</option>-->
+					<!--<option value='{"page":"{{this.page}}","method":"{{this.method}}","limit":{{this.limit}},"keyword":"{{this.keyword}}"}'>{{this.page}} - {{this.keyword}}</option>-->
+					<option value='{"page":"{{this.page}}","method":"{{this.method}}","limit":{{this.limit}},"keyword":"{{this.keyword}}"}'>{{this.page}}, {{this.limit}}, {{this.method}}, "{{this.keyword}}"</option>
 					{{/each}}
 				</select>
 				<input name="submitButton" type="submit" value="Repeat search" />

@@ -135,7 +135,7 @@ simulation.on("tick", tickActions);
 
 //add encompassing group for the zoom 
 var g = svg.append("g")
-	.attr("class", "everything");
+	.attr("class", "everything")
 //-----------------------------------------------------------new
 
 //// update force layout (called automatically each iteration)
@@ -178,13 +178,20 @@ var link = g.append("g")
 //draw circles for the nodes
 var node = g.append("g")
 	.attr("class", "nodes")
-	.selectAll("circle")
+	//.selectAll("circle")
+	.selectAll(".node")
 	.data(nodes)
-	.enter()
-	.append("circle")
-	.attr("r", 12)
+	//.enter()
+	.enter().append("g")
+	//.append("circle")
+	.attr("class", "node");
+	//.attr("r", 12)
 	//.attr("fill", circleColour);
 	//--------------------------------------------------------recycled
+
+node.append("circle")
+	.attr("class", "node")
+	.attr("r", 12)
 	.style('fill', function (d) {
 		var color = "lightGreen";
 		//change node color if keyword is found red is true
@@ -197,11 +204,13 @@ var node = g.append("g")
 	})
 	.style('stroke', "black")
 	.classed('reflexive', function (d) { return d.reflexive; })
-	.on("dblclick", dblclick)
+
+node.on("dblclick", dblclick)
 	.on("mouseover", function (d) {
+		//var g = d3.select(this); // The node
 		var g = d3.select(this); // The node
 
-		console.log(g);
+		//console.log(g);
 
 		// The class is used to remove the additional text later
 		var info = g.append('svg:text')
@@ -209,8 +218,9 @@ var node = g.append("g")
 			.attr('x', 20)
 			.attr('y', 10)
 			.text(function (d) { return d.id; });
-		var moreinfo = g.append('svg:text')
-			.classed('moreinfo', true)
+
+		var info = g.append('svg:text')
+			.classed('infoTitle', true)
 			.attr('x', 20)
 			.attr('y', 25)
 			.text(function (d) { return d.title; });
@@ -219,7 +229,7 @@ var node = g.append("g")
 	.on("mouseout", function () {
 		// Remove the info text on mouse out.
 		d3.select(this).select('text.info').remove();
-		d3.select(this).select('text.moreinfo').remove();
+		d3.select(this).select('text.infoTitle').remove();
 	});
 	//--------------------------------------------------------recycled
 
@@ -236,7 +246,8 @@ drag_handler(node);
 var zoom_handler = d3.zoom()
 	.on("zoom", zoom_actions);
 
-zoom_handler(svg);     
+zoom_handler(svg);   
+svg.on("dblclick.zoom", null);
 //-------------------------------------------------------------new
 
 
@@ -404,8 +415,11 @@ function zoom_actions() {
 function tickActions() {
 	//update circle positions each tick of the simulation 
 	node
-		.attr("cx", function (d) { return d.x; })
-		.attr("cy", function (d) { return d.y; });
+		//.attr("cx", function (d) { return d.x; })
+		//.attr("cy", function (d) { return d.y; });
+		.attr("transform", function (d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
 
 	//update link positions 
 	link
